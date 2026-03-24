@@ -97,7 +97,7 @@ const Login = () => {
          
 
           {/* Button */}
-         <Link href={"/shiftDetails"}>  <button
+         <Link href={"/"}>  <button
             type="submit"
             className="w-full mt-4 bg-gradient-to-tr from-[#822CE7] to-[#BB82FF] text-white shadow-md px-3 py-2 rounded-full"
           >
