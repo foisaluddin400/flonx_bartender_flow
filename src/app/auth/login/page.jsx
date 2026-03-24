@@ -6,6 +6,7 @@ import Image from "next/image";
 import LocationIco from "@/components/icon/LocationIco";
 import Arrow from "@/components/icon/Arrow";
 import Image1 from "../../../../public/img/shopImage.png";
+import { Navbar } from "@/components/shared/Navbar";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -28,8 +29,9 @@ const Login = () => {
   };
 
   return (
-    <div className="flex container m-auto bg-[#0F0B1A] justify-center items-center min-h-screen px-4 lg:px-0">
-      <div className="w-full">
+    <div className="">
+      <Navbar></Navbar>
+      <div className="w-full pt-28">
         {/* Shop Card */}
         <div className="bg-[#1A0E2E] border p-2 border-[#2A2448] rounded-2xl mb-6">
           <Link href={"/shopDetails"}>
