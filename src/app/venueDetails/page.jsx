@@ -5,6 +5,8 @@ import LeftArray from "@/components/icon/LeftArray";
 import Image from "next/image";
 
 import Navigate from "@/components/shared/Navigate";
+import LogOutIco from "./LogOutIco";
+import Link from "next/link";
 const page = () => {
   
   return (
@@ -52,6 +54,9 @@ const page = () => {
         </div>
      
       </div>
+      <Link href={'/auth/login'}><div className="bg-gradient-to-tr cursor-pointer flex gap-2 items-center justify-center mt-3 from-[#822CE7] to-[#BB82FF] text-white shadow-md px-3 py-2 rounded-full">
+        <LogOutIco></LogOutIco> <span>Log Out from Venue</span>
+      </div></Link>
     </div>
   );
 };

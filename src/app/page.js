@@ -11,10 +11,29 @@ import { Navbar } from "@/components/shared/Navbar";
 
 const Page = () => {
   const [activeTab, setActiveTab] = useState("queued");
- const [position, setPosition] = useState(0);
+  const [position, setPosition] = useState(0);
   const [dragging, setDragging] = useState(false);
   const sliderRef = useRef(null);
+const [isDown, setIsDown] = useState(false);
+const [startX, setStartX] = useState(0);
+const [scrollLeft, setScrollLeft] = useState(0);
 
+const handleMouseDown = (e) => {
+  setIsDown(true);
+  setStartX(e.pageX - sliderRef.current.offsetLeft);
+  setScrollLeft(sliderRef.current.scrollLeft);
+};
+
+const handleMouseLeave = () => setIsDown(false);
+const handleMouseUp = () => setIsDown(false);
+
+const handleMouseMove = (e) => {
+  if (!isDown) return;
+  e.preventDefault();
+  const x = e.pageX - sliderRef.current.offsetLeft;
+  const walk = (x - startX) * 1.5; // speed
+  sliderRef.current.scrollLeft = scrollLeft - walk;
+};
   const handleMove = (clientX) => {
     if (!dragging) return;
 
@@ -48,7 +67,6 @@ const Page = () => {
     }
   };
 
-
   return (
     <div className="px-3">
       <Navbar></Navbar>
@@ -59,10 +77,11 @@ const Page = () => {
           <h2 className="text-[16px] italic">Shifts Details</h2>
         </div>
 
-        <Link href={'/venueDetails'}>
-        <button className="border flex gap-2 border-[#822CE7] text-[#822CE7] px-4 py-2 rounded-full text-sm">
-          <ShopDetailsIco /> Venue Details
-        </button></Link>
+        <Link href={"/venueDetails"}>
+          <button className="border flex gap-2 border-[#822CE7] text-[#822CE7] px-4 py-2 rounded-full text-sm">
+            <ShopDetailsIco /> Venue Details
+          </button>
+        </Link>
       </div>
 
       {/* Venue Card */}
@@ -93,107 +112,107 @@ const Page = () => {
       </div>
 
       {/* Tabs */}
-    <div className="flex gap-3 mb-6 overflow-x-auto scrollbar-hide snap-x snap-mandatory px-1">
-  <button
-    onClick={() => setActiveTab("queued")}
-    className={`flex-shrink-0 snap-start flex items-center gap-3 px-4 py-2 rounded-full border transition-all
+      <div  className="flex gap-3 mb-6 overflow-x-auto custom-scroll px-1">
+        <button
+          onClick={() => setActiveTab("queued")}
+          className={`flex-shrink-0 snap-start flex items-center gap-3 px-4 py-2 rounded-full border transition-all
       ${
         activeTab === "queued"
           ? "border-[#F97316] text-[#F97316] bg-[#1A0F2E]"
           : "border-[#F973161A]"
       }`}
-  >
-    <span
-      className={`w-5 h-5 rounded-full flex items-center justify-center border-2
+        >
+          <span
+            className={`w-5 h-5 rounded-full flex items-center justify-center border-2
         ${activeTab === "queued" ? "border-[#F97316]" : "border-[#F973161A]"}`}
-    >
-      {activeTab === "queued" && (
-        <span className="w-3 h-3 rounded-full bg-gradient-to-r from-[#F97316] to-[#F97316]" />
-      )}
-    </span>
-    Queued [12]
-  </button>
+          >
+            {activeTab === "queued" && (
+              <span className="w-3 h-3 rounded-full bg-gradient-to-r from-[#F97316] to-[#F97316]" />
+            )}
+          </span>
+          Queued [12]
+        </button>
 
-  <button
-    onClick={() => setActiveTab("progress")}
-    className={`flex-shrink-0 snap-start flex items-center gap-3 px-4 py-2 rounded-full border transition-all
+        <button
+          onClick={() => setActiveTab("progress")}
+          className={`flex-shrink-0 snap-start flex items-center gap-3 px-4 py-2 rounded-full border transition-all
       ${
         activeTab === "progress"
           ? "border-[#22C55E] text-[#22C55E] bg-[#22C55E1A]"
           : "border-[#2A2448]"
       }`}
-  >
-    <span
-      className={`w-5 h-5 rounded-full flex items-center justify-center border-2
+        >
+          <span
+            className={`w-5 h-5 rounded-full flex items-center justify-center border-2
         ${activeTab === "progress" ? "border-[#22C55E]" : "border-[#2A2448]"}`}
-    >
-      {activeTab === "progress" && (
-        <span className="w-3 h-3 rounded-full bg-gradient-to-r from-[#22C55E] to-[#22C55E]" />
-      )}
-    </span>
-    In Progress [12]
-  </button>
+          >
+            {activeTab === "progress" && (
+              <span className="w-3 h-3 rounded-full bg-gradient-to-r from-[#22C55E] to-[#22C55E]" />
+            )}
+          </span>
+          In Progress [12]
+        </button>
 
-  <button
-    onClick={() => setActiveTab("pickup")}
-    className={`flex-shrink-0 snap-start flex items-center gap-3 px-4 py-2 rounded-full border transition-all
+        <button
+          onClick={() => setActiveTab("pickup")}
+          className={`flex-shrink-0 snap-start flex items-center gap-3 px-4 py-2 rounded-full border transition-all
       ${
         activeTab === "pickup"
           ? "border-[#822CE7] text-[#822CE7] bg-[#822CE71A]"
           : "border-[#2A2448]"
       }`}
-  >
-    <span
-      className={`w-5 h-5 rounded-full flex items-center justify-center border-2
+        >
+          <span
+            className={`w-5 h-5 rounded-full flex items-center justify-center border-2
         ${activeTab === "pickup" ? "border-[#822CE7]" : "border-[#2A2448]"}`}
-    >
-      {activeTab === "pickup" && (
-        <span className="w-3 h-3 rounded-full bg-gradient-to-r from-[#822CE7] to-[#BB82FF]" />
-      )}
-    </span>
-    Ready For Pickup [12]
-  </button>
+          >
+            {activeTab === "pickup" && (
+              <span className="w-3 h-3 rounded-full bg-gradient-to-r from-[#822CE7] to-[#BB82FF]" />
+            )}
+          </span>
+          Ready For Pickup [12]
+        </button>
 
-  <button
-    onClick={() => setActiveTab("completed")}
-    className={`flex-shrink-0 snap-start flex items-center gap-3 px-4 py-2 rounded-full border transition-all
+        <button
+          onClick={() => setActiveTab("completed")}
+          className={`flex-shrink-0 snap-start flex items-center gap-3 px-4 py-2 rounded-full border transition-all
       ${
         activeTab === "completed"
           ? "border-[#3D8BFF] text-[#3D8BFF] bg-[#3D8BFF1A]"
           : "border-[#2A2448]"
       }`}
-  >
-    <span
-      className={`w-5 h-5 rounded-full flex items-center justify-center border-2
+        >
+          <span
+            className={`w-5 h-5 rounded-full flex items-center justify-center border-2
         ${activeTab === "completed" ? "border-[#3D8BFF]" : "border-[#2A2448]"}`}
-    >
-      {activeTab === "completed" && (
-        <span className="w-3 h-3 rounded-full bg-gradient-to-r from-[#3D8BFF] to-[#3D8BFF]" />
-      )}
-    </span>
-    Completed [12]
-  </button>
+          >
+            {activeTab === "completed" && (
+              <span className="w-3 h-3 rounded-full bg-gradient-to-r from-[#3D8BFF] to-[#3D8BFF]" />
+            )}
+          </span>
+          Completed [12]
+        </button>
 
-  <button
-    onClick={() => setActiveTab("cancelled")}
-    className={`flex-shrink-0 snap-start flex items-center gap-3 px-4 py-2 rounded-full border transition-all
+        <button
+          onClick={() => setActiveTab("cancelled")}
+          className={`flex-shrink-0 snap-start flex items-center gap-3 px-4 py-2 rounded-full border transition-all
       ${
         activeTab === "cancelled"
           ? "border-[#EF4444] text-[#EF4444] bg-[#EF44441A]"
           : "border-[#2A2448]"
       }`}
-  >
-    <span
-      className={`w-5 h-5 rounded-full flex items-center justify-center border-2
+        >
+          <span
+            className={`w-5 h-5 rounded-full flex items-center justify-center border-2
         ${activeTab === "cancelled" ? "border-[#EF4444]" : "border-[#2A2448]"}`}
-    >
-      {activeTab === "cancelled" && (
-        <span className="w-3 h-3 rounded-full bg-gradient-to-r from-[#EF4444] to-[#EF4444]" />
-      )}
-    </span>
-    Cancelled [12]
-  </button>
-</div>
+          >
+            {activeTab === "cancelled" && (
+              <span className="w-3 h-3 rounded-full bg-gradient-to-r from-[#EF4444] to-[#EF4444]" />
+            )}
+          </span>
+          Cancelled [12]
+        </button>
+      </div>
 
       {/* Tab Content */}
 
@@ -407,16 +426,16 @@ const Page = () => {
 
                 <div
                   onMouseDown={() => setDragging(true)}
-            onMouseUp={handleEnd}
-            onMouseLeave={handleEnd}
-            onMouseMove={(e) => handleMove(e.clientX)}
-            onTouchStart={() => setDragging(true)}
-            onTouchEnd={handleEnd}
-            onTouchMove={(e) => handleMove(e.touches[0].clientX)}
-            style={{
-              left: position,
-              transition: dragging ? "none" : "all 0.3s ease",
-            }}
+                  onMouseUp={handleEnd}
+                  onMouseLeave={handleEnd}
+                  onMouseMove={(e) => handleMove(e.clientX)}
+                  onTouchStart={() => setDragging(true)}
+                  onTouchEnd={handleEnd}
+                  onTouchMove={(e) => handleMove(e.touches[0].clientX)}
+                  style={{
+                    left: position,
+                    transition: dragging ? "none" : "all 0.3s ease",
+                  }}
                   className="absolute w-14 h-11 bg-gradient-to-r from-purple-600 to-indigo-500 rounded-full flex items-center justify-center text-white font-semibold cursor-pointer transition-all duration-200"
                 >
                   Slide
@@ -611,7 +630,7 @@ const Page = () => {
 
               <div className="w-full  gap-3 mt-4">
                 <button className=" border brder-white w-full  py-2 rounded-full">
-               Marked Unavailable & Refunded
+                  Marked Unavailable & Refunded
                 </button>
               </div>
             </div>
@@ -671,7 +690,6 @@ const Page = () => {
               </div>
 
               <div className="w-full  gap-3 mt-4">
-                
                 <button className=" border brder-white w-full  py-2 rounded-full">
                   Marked Unavailable & Refunded
                 </button>

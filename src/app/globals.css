@@ -24,10 +24,26 @@ li{
   list-style: none;
 }
 /* Hide scrollbar for all browsers */
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
+.custom-scroll {
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #822CE7 #1A1333;
 }
-.scrollbar-hide {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+
+/* Chrome, Edge, Safari */
+.custom-scroll::-webkit-scrollbar {
+  height: 6px;
+}
+
+.custom-scroll::-webkit-scrollbar-track {
+  background: #1A1333;
+  border-radius: 10px;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg, #822CE7, #BB82FF);
+  border-radius: 10px;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(90deg, #9333EA, #C084FC);
 }
